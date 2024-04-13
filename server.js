@@ -5,6 +5,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 
 import userRouter from "./src/modules/user/user.routes.js";
+import productRouter from "./src/modules/product/product.routes.js";
 import connectDB from "./src/config/dbConnection.js";
 
 const app = express();
@@ -17,6 +18,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use("/api/user", userRouter)
+app.use("/api/product", productRouter)
 
 app.listen(3000, () => {
     connectDB();
