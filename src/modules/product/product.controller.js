@@ -10,8 +10,6 @@ export default class productController {
         category,
         brand,
         stock,
-        rating,
-        reviews,
       } = req.body;
       console.log("BODY IS ", req.body);
       const images = req.files.map((file) => file.filename);
@@ -23,8 +21,6 @@ export default class productController {
         category: category,
         brand: brand,
         stock: stock,
-        rating: rating,
-        reviews: reviews,
       };
       const result = await new productManager().addProduct(newProduct);
       if (!result.data) {
@@ -118,6 +114,52 @@ export default class productController {
         reviews: reviews,
       };
       const result = await new productManager().updateProduct(id, newProduct);
+      if (result.success == false) {
+        res.status(500).send(result);
+      } else {
+        res.status(200).send(result);
+      }
+    } catch (error) {
+      console.log("Controller Error", error);
+      res.status(500).send(error);
+    }
+  }
+
+  async deleteProduct(req, res) {
+    try {
+      const id = req.params.id;
+      const result = await new productManager().deleteProduct(id);
+      if (result.success == false) {
+        res.status(500).send(result);
+      } else {
+        res.status(200).send(result);
+      }
+    } catch (error) {
+      console.log("Controller Error", error);
+      res.status(500).send(error);
+    }
+  }
+
+  async rateProduct(req, res) {
+    try {
+      const { productId, rating } = req.body;
+      const userId = req.user.id;
+      const result = await new productManager().rateProduct(userId, productId, rating);
+      if (result.success == false) {
+        res.status(500).send(result);
+      } else {
+        res.status(200).send(result);
+      }
+    } catch (error) {
+      console.log("Controller Error", error);
+      res.status(500).send(error);
+  }
+}
+  async reviewProduct(req, res) {
+    try {
+      const { productId, review } = req.body;
+      const userId = req.user.id;
+      const result = await new productManager().reviewProduct(userId, productId, review);
       if (result.success == false) {
         res.status(500).send(result);
       } else {

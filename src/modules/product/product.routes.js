@@ -10,7 +10,9 @@ productRouter.get("/get-all-products", new ProductController().getAllProducts)
 productRouter.get("/get-product/:id", new ProductController().getProductById)
 productRouter.post("/filter-product", new ProductController().filterProducts)
 productRouter.put("/update-product/:id",uploads.array("images"), new ProductController().updateProduct)
-// productRouter.delete("/deleteUser/:id", new UserController().deleteUser)
+productRouter.delete("/delete-product/:id", new ProductController().deleteProduct)
+productRouter.post("/rate-product", new ProductController().rateProduct)
+productRouter.post("/review-product", new ProductController().reviewProduct)
 // productRouter.get("/getUserByType", new UserController().getUserByType)
 
 

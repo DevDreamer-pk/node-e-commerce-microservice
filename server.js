@@ -7,6 +7,7 @@ import bodyParser from "body-parser";
 import userRouter from "./src/modules/user/user.routes.js";
 import productRouter from "./src/modules/product/product.routes.js";
 import connectDB from "./src/config/dbConnection.js";
+import JwtAuth from "./src/middleware/jwt.middleware.js";
 
 const app = express();
 app.use(bodyParser.json());
@@ -18,7 +19,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use("/api/user", userRouter)
-app.use("/api/product", productRouter)
+app.use("/api/product",JwtAuth, productRouter)
 
 app.listen(3000, () => {
     connectDB();

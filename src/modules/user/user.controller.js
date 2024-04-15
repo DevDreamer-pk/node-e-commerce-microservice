@@ -23,7 +23,7 @@ export default class userController {
             const { email, password } = req.body;
             const result = await new userManager().login({email, password});
             if(result.success == true) {
-                const token = jwt.sign({ email: result.email, id: result._id, type: result.type }, process.env.SECRET, { expiresIn: "1h" });
+                const token = jwt.sign({ email: result.user.email, id: result.user._id, type: result.user.type }, process.env.SECRET, { expiresIn: "1h" });
                 res.status(200).send({ message: "User Logged In", token: token});
             } else {
                 res.status(200).send(result);

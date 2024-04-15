@@ -8,8 +8,16 @@ const productSchema = mongoose.Schema({
     category : { type: String },
     brand : { type: String },
     stock : { type: Number },
-    rating : [{ type: Number }],
-    reviews : [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
+    rating : [{ 
+        user : { type: mongoose.Schema.Types.ObjectId, ref: "User"}, 
+        product : { type: mongoose.Schema.Types.ObjectId, ref: "Product"}, 
+        rating : { type: Number }
+    }],
+    reviews : [{ 
+        user : {type: mongoose.Schema.Types.ObjectId, ref: "User"},
+        product : { type: mongoose.Schema.Types.ObjectId, ref: "Product"},
+        review : { type: String } 
+    }],
     createdAt : { type: Date, default: Date.now }
 })
 
