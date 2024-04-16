@@ -1,6 +1,7 @@
 import userManager from "./user.manager.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { Types } from 'mongoose';
 import userModel from "./user.model.js";
 export default class userController {
     async signupUser(req, res) {
@@ -52,6 +53,9 @@ export default class userController {
     async getUserById(req, res) {
         try {
             const id = req.params.id;
+            if (!Types.ObjectId.isValid(id)) {
+                return res.status(400).json({ error: 'Invalid ObjectId' });
+            }
             const result = await new userManager().getUserById(id);
             if(!result.success) {
                 res.status(500).send(result);

@@ -1,4 +1,5 @@
 import productManager from "./product.manager.js";
+import { Types } from 'mongoose';
 
 export default class productController {
   async addProduct(req, res) {
@@ -51,6 +52,9 @@ export default class productController {
   async getProductById(req, res) {
     try {
       const id = req.params.id;
+      if (!Types.ObjectId.isValid(id)) {
+          return res.status(400).json({ error: 'Invalid ObjectId' });
+      }
       const result = await new productManager().getProductById(id);
       if (result.success == false) {
         res.status(500).send(result);
@@ -102,7 +106,9 @@ export default class productController {
         rating,
         reviews,
       } = req.body;
-    //   const images = req.files.map((file) => file.filename);
+      const images = req.files.map((file) => file.filename);
+      // console.log("Images IS ",images);
+
       const newProduct = {
         name: name,
         description: description,
@@ -112,6 +118,7 @@ export default class productController {
         stock: stock,
         rating: rating,
         reviews: reviews,
+        images: images,
       };
       const result = await new productManager().updateProduct(id, newProduct);
       if (result.success == false) {
@@ -128,6 +135,9 @@ export default class productController {
   async deleteProduct(req, res) {
     try {
       const id = req.params.id;
+      if (!Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ error: 'Invalid ObjectId' });
+    }
       const result = await new productManager().deleteProduct(id);
       if (result.success == false) {
         res.status(500).send(result);
@@ -144,6 +154,9 @@ export default class productController {
     try {
       const { productId, rating } = req.body;
       const userId = req.user.id;
+      if (!Types.ObjectId.isValid(productId)) {
+        return res.status(400).json({ error: 'Invalid ObjectId' });
+    }
       const result = await new productManager().rateProduct(userId, productId, rating);
       if (result.success == false) {
         res.status(500).send(result);
@@ -159,6 +172,9 @@ export default class productController {
     try {
       const { productId, review } = req.body;
       const userId = req.user.id;
+      if (!Types.ObjectId.isValid(productId)) {
+        return res.status(400).json({ error: 'Invalid ObjectId' });
+    }
       const result = await new productManager().reviewProduct(userId, productId, review);
       if (result.success == false) {
         res.status(500).send(result);

@@ -1,6 +1,6 @@
 import express from "express";
 import UserController from "./user.controller.js";
-import UserValidationManager from "../../middleware/user.validation.js";
+import UserValidationManager from "../../middleware/validation.js";
 
 // User Routes 
 const userRouter = express.Router();
