@@ -157,7 +157,7 @@ export default class productManager {
       // Check if the user has already reviewed the product
       const existingReviewIndex = product.reviews.findIndex(
         (r) => r.user.toString() === userId
-      )
+      );
 
       if (existingReviewIndex !== -1) {
         // Update the existing review
@@ -175,9 +175,9 @@ export default class productManager {
       await product.save();
 
       return { message: "Product Reviewed", success: true, product: product };
-  } catch (error) {
-    console.error("Error reviewing product:", error);
-    throw new Error(error);
+    } catch (error) {
+      console.error("Error reviewing product:", error);
+      throw new Error(error);
+    }
   }
- }
 }
