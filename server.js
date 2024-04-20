@@ -10,6 +10,8 @@ import orderRouter from "./src/modules/order/order.routes.js";
 import cartRouter from "./src/modules/cart/cart.routes.js";
 import connectDB from "./src/config/dbConnection.js";
 import JwtAuth from "./src/middleware/jwt.middleware.js";
+// import cronJob from "./src/middleware/cron.job.js";
+import rabbitMQProducer from "./src/middleware/rabbit.mq.producer.js";
 
 const app = express();
 app.use(bodyParser.json());
@@ -27,5 +29,7 @@ app.use("/api/cart",JwtAuth, cartRouter)
 
 app.listen(3000, () => {
     connectDB();
+    // cronJob.start();
+    rabbitMQProducer();
     console.log("Server started on port 3000");
 })

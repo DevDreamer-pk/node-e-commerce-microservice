@@ -42,9 +42,16 @@ export default class productManager {
     }
   }
 
-  async filterProducts(category, brand, minPrice, maxPrice) {
+  async filterProducts(category, brand, minPrice, maxPrice, searchTerm, skip = 0 , limit = 2) {
     try {
       let filter = {};
+
+      if (searchTerm) {
+        filter.$or = [
+            { name: { $regex: searchTerm, $options: "i" } },
+            { description: { $regex: searchTerm, $options: "i" } }
+        ];
+    }
 
       if (category) {
         filter.category = category;
@@ -62,7 +69,7 @@ export default class productManager {
         filter.price = { $lte: maxPrice };
       }
 
-      const result = await productModel.find(filter);
+      const result = await productModel.find(filter).skip(skip).limit(limit);
       if (!result || result.length === 0) {
         return { message: "Products Not Found", success: false };
       }

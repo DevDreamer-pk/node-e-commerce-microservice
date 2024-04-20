@@ -66,14 +66,16 @@ export default class productController {
       const brand = req.query.brand;
       const minPrice = req.query.minPrice;
       const maxPrice = req.query.maxPrice;
+      const searchTerm = req.query.searchTerm;
 
-      console.log("FILTERS", category, brand, minPrice, maxPrice);
+      console.log("FILTERS", category, brand, minPrice, maxPrice,searchTerm);
 
       const result = await new productManager().filterProducts(
         category,
         brand,
         minPrice,
-        maxPrice
+        maxPrice,
+        searchTerm
       );
       if (result.success == false) {
         res.status(500).send(result);
